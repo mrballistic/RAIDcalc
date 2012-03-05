@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'RAIDcalc' target in the 'RAIDcalc' project
+//
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+#endif
