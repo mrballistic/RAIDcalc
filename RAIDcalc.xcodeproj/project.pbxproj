@@ -35,6 +35,7 @@
 		05B0E79315056E3C00E1FCCB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 05B0E79215056E3C00E1FCCB /* AppDelegate.m */; };
 		05B0E79615056E3C00E1FCCB /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05B0E79515056E3C00E1FCCB /* MainViewController.m */; };
 		05B0E79815056E3C00E1FCCB /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05B0E79715056E3C00E1FCCB /* MainViewController.xib */; };
+		05B0E7A115056F1B00E1FCCB /* www in Resources */ = {isa = PBXBuildFile; fileRef = 05B0E7A015056F1B00E1FCCB /* www */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,10 +53,10 @@
 		05B0E76615056E3C00E1FCCB /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		05B0E76815056E3C00E1FCCB /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		05B0E76A15056E3C00E1FCCB /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
-		05B0E76E15056E3C00E1FCCB /* RAIDcalc-Info.plist */ = {isa = PBXFileReference; path = "RAIDcalc-Info.plist"; sourceTree = "<group>"; };
+		05B0E76E15056E3C00E1FCCB /* RAIDcalc-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RAIDcalc-Info.plist"; sourceTree = "<group>"; };
 		05B0E77015056E3C00E1FCCB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		05B0E77215056E3C00E1FCCB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		05B0E77415056E3C00E1FCCB /* RAIDcalc-Prefix.pch */ = {isa = PBXFileReference; path = "RAIDcalc-Prefix.pch"; sourceTree = "<group>"; };
+		05B0E77415056E3C00E1FCCB /* RAIDcalc-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RAIDcalc-Prefix.pch"; sourceTree = "<group>"; };
 		05B0E77515056E3C00E1FCCB /* PhoneGap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PhoneGap.framework; path = /Users/Shared/PhoneGap/Frameworks/PhoneGap.framework; sourceTree = "<absolute>"; };
 		05B0E77A15056E3C00E1FCCB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Resources/en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		05B0E77E15056E3C00E1FCCB /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = Resources/es.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -66,12 +67,13 @@
 		05B0E78A15056E3C00E1FCCB /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Resources/splash/Default@2x.png"; sourceTree = "<group>"; };
 		05B0E78C15056E3C00E1FCCB /* Capture.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Capture.bundle; path = Resources/Capture.bundle; sourceTree = "<group>"; };
 		05B0E78E15056E3C00E1FCCB /* PhoneGap.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PhoneGap.plist; sourceTree = "<group>"; };
-		05B0E79115056E3C00E1FCCB /* AppDelegate.h */ = {isa = PBXFileReference; name = AppDelegate.h; path = Classes/AppDelegate.h; sourceTree = "<group>"; };
+		05B0E79115056E3C00E1FCCB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Classes/AppDelegate.h; sourceTree = "<group>"; };
 		05B0E79215056E3C00E1FCCB /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Classes/AppDelegate.m; sourceTree = "<group>"; };
-		05B0E79415056E3C00E1FCCB /* MainViewController.h */ = {isa = PBXFileReference; name = MainViewController.h; path = Classes/MainViewController.h; sourceTree = "<group>"; };
+		05B0E79415056E3C00E1FCCB /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MainViewController.h; path = Classes/MainViewController.h; sourceTree = "<group>"; };
 		05B0E79515056E3C00E1FCCB /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MainViewController.m; path = Classes/MainViewController.m; sourceTree = "<group>"; };
 		05B0E79715056E3C00E1FCCB /* MainViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MainViewController.xib; path = Classes/MainViewController.xib; sourceTree = "<group>"; };
-		05B0E79A15056E3C00E1FCCB /* README */ = {isa = PBXFileReference; name = README; path = Plugins/README; sourceTree = "<group>"; };
+		05B0E79A15056E3C00E1FCCB /* README */ = {isa = PBXFileReference; lastKnownFileType = text; name = README; path = Plugins/README; sourceTree = "<group>"; };
+		05B0E7A015056F1B00E1FCCB /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,6 +148,7 @@
 		05B0E76C15056E3C00E1FCCB /* RAIDcalc */ = {
 			isa = PBXGroup;
 			children = (
+				05B0E7A015056F1B00E1FCCB /* www */,
 				05B0E77515056E3C00E1FCCB /* PhoneGap.framework */,
 				05B0E77715056E3C00E1FCCB /* Resources */,
 				05B0E79015056E3C00E1FCCB /* Classes */,
@@ -300,6 +303,7 @@
 				05B0E78D15056E3C00E1FCCB /* Capture.bundle in Resources */,
 				05B0E78F15056E3C00E1FCCB /* PhoneGap.plist in Resources */,
 				05B0E79815056E3C00E1FCCB /* MainViewController.xib in Resources */,
+				05B0E7A115056F1B00E1FCCB /* www in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -415,6 +419,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = /Users/Shared/PhoneGap/Frameworks;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -422,6 +427,7 @@
 				GCC_PREFIX_HEADER = "RAIDcalc/RAIDcalc-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = "PHONEGAP_FRAMEWORK=YES";
 				INFOPLIST_FILE = "RAIDcalc/RAIDcalc-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					UIKit,
@@ -433,7 +439,8 @@
 					/usr/lib/libSystem.B.dylib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -442,6 +449,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Todd Greco";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = /Users/Shared/PhoneGap/Frameworks;
@@ -449,6 +458,7 @@
 				GCC_PREFIX_HEADER = "RAIDcalc/RAIDcalc-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = "PHONEGAP_FRAMEWORK=YES";
 				INFOPLIST_FILE = "RAIDcalc/RAIDcalc-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					UIKit,
@@ -460,7 +470,9 @@
 					/usr/lib/libSystem.B.dylib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "DBD55272-1EF9-4E58-AA7D-4FCD0F10C879";
+				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};

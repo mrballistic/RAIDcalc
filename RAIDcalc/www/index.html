@@ -1,0 +1,553 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+  <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
+    <meta name="viewport" content="width=default-width; user-scalable=no" />
+	<meta name="apple-touch-fullscreen" content="yes" /> 
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+	<link rel="apple-touch-startup-image" href="./Default.png" />
+
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+
+    <title>RAIDcalc</title>
+	
+	
+	<link rel="stylesheet" type="text/css" href="./css/main.css" media="screen" /> 	
+
+	
+	<style type="text/css" media="screen">@import "css/jqtouch.min.css";</style>
+	<style type="text/css" media="screen">@import "css/theme.min.css";</style>		
+
+	<script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
+	
+	<!-- jquery -->
+    <script type="text/javascript" src="./js/jquery-min.js"></script>    
+	<script type="text/javascript" src="./js/jqtouch.min.js"></script>   
+	<script type="text/javascript" src="./js/jqtouch-jquery.min.js"></script>  
+	<!-- end jquery --> 
+	
+	
+	<script type="text/javascript" charset="utf-8">
+	
+		function showCredits() {
+			$('#theForm').fadeOut('fast');
+			$('#theAnswer').fadeOut('fast');
+			setTimeout(function(){$('#credits').fadeIn('slow');}, 500);
+			$('#altBG').fadeIn('fast');
+			$('#showTheCredits').unbind();
+			$('#showTheCredits').click(function(){hideCredits();});
+		}
+		
+		function hideCredits() {
+			setTimeout(function(){$('#theForm').fadeIn('slow');$('#theAnswer').fadeIn('slow');}, 500);
+			$('#altBG').fadeOut('fast');
+			$('#credits').fadeOut('fast');
+			$('#showTheCredits').unbind();
+			$('#showTheCredits').click(function(){showCredits();});		
+		}
+	
+		(function($) {
+			var cache = [];
+			// Arguments are image paths relative to the current page.
+			$.preLoadImages = function() {
+			var args_len = arguments.length;
+			for (var i = args_len; i--;) {
+			  var cacheImage = document.createElement('img');
+			  cacheImage.src = arguments[i];
+			  cache.push(cacheImage);
+			}
+		  }
+		})(jQuery)
+	
+	
+		function calcActual(theSize){
+		
+			theSize = theSize * 1000000000;
+			theSize = theSize / 1024;
+			theSize = theSize / 1024;
+			theSize = theSize / 1024;
+			theSize = theSize.toFixed(2);
+			return(theSize);
+		}
+	
+		function calcRaid() {
+			var diskCount = 0;
+			var diskSize = 0;
+			var thisAnswer = 0;
+			
+			if($('#lvl :selected').val() == 'null'){
+				$('#theAnswer').html('More info needed');
+				return;
+			}
+			
+			if($('#num :selected').text() == 'Number of drives'){
+				$('#theAnswer').html('More info needed');
+				return;
+			}
+			
+			diskCount = parseInt($('#num :selected').text());
+			diskSize = parseInt($('#drv :selected').val());	
+			readSpeed = 0;
+			writeSpeed = 0;	
+			fault = 0;	
+			
+			switch($('#lvl :selected').val()){
+				case 'JBOD':
+					thisAnswer = diskCount * diskSize;
+					readSpeed = '1x';
+					writeSpeed = '1x';	
+					fault = 'n/a';		
+					break;
+				case '0':
+					if(diskCount%2){
+						$('#theAnswer').addClass('errorText');
+						$('#theAnswer').html('RAID 0 requires an even number of drives');
+						return;	
+					}
+					if(diskCount == 2){
+						readSpeed = '2x';
+						writeSpeed = '2x';
+					} else if (diskCount >= 6){
+						readSpeed = '3x';
+						writeSpeed = '3x';
+					} else {
+						readSpeed = '2x';
+						writeSpeed = '2x';
+					}				
+					fault = 'n/a';		
+					thisAnswer = diskCount * diskSize;
+					break;
+				case '0+1':
+					if(diskCount%2){
+						$('#theAnswer').addClass('errorText');
+						$('#theAnswer').html('RAID 0+1 requires <br />an even number of drives');
+						return;	
+					}
+					if(diskCount<4){
+						$('#theAnswer').addClass('errorText');
+						$('#theAnswer').html('RAID 0+1 requires at least 4 drives');
+						return;	
+					}
+					
+					readSpeed = '2x';
+					writeSpeed = '2x';
+					
+					if (diskCount >= 8){
+						readSpeed = '3x';
+						writeSpeed = '3x';
+					}
+					
+					
+
+					fault = '1x';	
+					thisAnswer = (diskCount * diskSize)/2;
+					break;
+				case '1+0':
+					if(diskCount%2){
+						$('#theAnswer').addClass('errorText');
+						$('#theAnswer').html('RAID 1+0 requires<br /> an even number of drives');
+						return;	
+					}
+					if(diskCount<4){
+						$('#theAnswer').html('RAID 1+0 requires at least 4 drives');
+						return;	
+					}
+					
+
+					
+					readSpeed = '2x';
+					writeSpeed = '2x';
+					fault = '1x';	
+					
+					if (diskCount >= 8){
+						readSpeed = '3x';
+						writeSpeed = '3x';
+					}
+					
+					thisAnswer = (diskCount * diskSize)/2;
+					break;				
+				case '1':
+					if(diskCount != 2){
+						$('#theAnswer').addClass('errorText');
+						$('#theAnswer').html('RAID 1 only supports 2 drives max');
+						return;	
+					}	
+					
+					readSpeed = '2x';
+					writeSpeed = '1x';	
+					fault = '1x';				
+														
+					thisAnswer = (diskCount * diskSize)/2;
+					break;
+				case '1E':
+					if(diskCount < 3){
+						$('#theAnswer').addClass('errorText');
+						$('#theAnswer').html('RAID 1E requires at least 3 drives');
+						return;	
+					}
+					
+					readSpeed = '2x';
+					writeSpeed = '1x';		
+					fault = '1x';	
+																	
+					thisAnswer = (diskCount * diskSize)/2;
+					break;
+				case '3':
+					if(diskCount < 3){
+						$('#theAnswer').addClass('errorText');
+						$('#theAnswer').html('RAID 3 requires at least 3 drives');
+						return;	
+					}	
+					
+					readSpeed = '2x';
+					writeSpeed = '1x';		
+					fault = '1x';				
+														
+					thisAnswer = ((diskCount-1) * diskSize);
+					break;
+				case '4':
+					if(diskCount < 3){
+						$('#theAnswer').html('RAID 4 requires at least 3 drives');
+						return;	
+					}		
+					
+					readSpeed = '2x';
+					writeSpeed = '1x';		
+					fault = '1x';			
+											
+					thisAnswer = ((diskCount-1) * diskSize);
+					break;
+				case '5':
+					if(diskCount < 3){
+						$('#theAnswer').addClass('errorText');
+						$('#theAnswer').html('RAID 5 requires at least 3 drives');
+						return;	
+					}
+										
+					readSpeed = '4x';
+					writeSpeed = '1x';	
+					fault = '1x';
+					
+					thisAnswer = ((diskCount-1) * diskSize);
+					break;
+				case '50':
+					if(diskCount < 6){
+						$('#theAnswer').addClass('errorText');
+						$('#theAnswer').html('RAID 50 requires at least 6 drives');
+						return;	
+					}
+					
+					readSpeed = '4x';
+					writeSpeed = '2x';	
+					fault = '1x';		
+					
+					thisAnswer = ((diskCount-2) * diskSize);
+					break;
+				case '6':
+					if(diskCount < 4){
+						$('#theAnswer').addClass('errorText');
+						$('#theAnswer').html('RAID 6 requires at least 4 drives');
+						return;	
+					}
+					
+					readSpeed = '4x';
+					writeSpeed = '2x';	
+					fault = '2x';
+					
+					thisAnswer = ((diskCount-2) * diskSize);
+					break;
+				case '60':
+					if(diskCount < 8){
+						$('#theAnswer').addClass('errorText');
+						$('#theAnswer').html('RAID 60 requires at least 8 drives');
+						return;	
+					}
+					
+					readSpeed = '4x';
+					writeSpeed = '2x';	
+					fault = '2x';
+					
+					thisAnswer = ((diskCount-4) * diskSize);
+					break;
+				case '10':
+					if(diskCount%2){
+						$('#theAnswer').addClass('errorText');
+						$('#theAnswer').html('RAID 10 requires<br /> an even number of drives');
+						return;	
+					}
+					if(diskCount<4){
+						$('#theAnswer').addClass('errorText');
+						$('#theAnswer').html('RAID 10 requires at least 4 drives');
+						return;	
+					}
+					
+					readSpeed = '4x';
+					writeSpeed = '2x';	
+					fault = '1x';		
+					
+					thisAnswer = (diskCount * diskSize)/2;
+					break;
+						
+				default:
+					$('#theAnswer').html('More info needed');
+					return;	
+			
+			}
+			
+			$('#theAnswer').removeClass('errorText'); // if we got this far, then we're actually going to show a value
+			
+			actualSize = calcActual(thisAnswer);			
+			thisAnswer = thisAnswer.toFixed(2);
+			
+			if(thisAnswer >= 1000){ // we're in terabyte land, here			
+				thisAnswer = thisAnswer/1000;
+				thisAnswer = thisAnswer.toFixed(2);
+				thisAnswer += ' TB';
+			} else {
+				thisAnswer += ' GB';
+			}
+			
+			if(actualSize >= 1000){ // we're in terabyte land, here			
+				actualSize = actualSize/1000;
+				actualSize = actualSize.toFixed(2);
+				actualSize += ' TB';
+			} else {
+				actualSize += ' GB';
+			}
+			
+			
+			switch(fault){
+				case 'n/a':
+					fault='<img src="i/meter_0.png">';
+					break;
+			
+				case '1x':
+					fault='<img src="i/meter_1.png">';
+					break;
+					
+				case '2x':
+					fault='<img src="i/meter_2.png">';
+					break;
+					
+				case '3x':
+					fault='<img src="i/meter_3.png">';
+					break;
+					
+				case '4x':
+					fault='<img src="i/meter_4.png">';
+					break;			
+			}
+			
+			switch(readSpeed){
+				case 'n/a':
+					readSpeed='<img src="i/meter_0.png">';
+					break;
+			
+				case '1x':
+					readSpeed='<img src="i/meter_1.png">';
+					break;
+					
+				case '2x':
+					readSpeed='<img src="i/meter_2.png">';
+					break;
+					
+				case '3x':
+					readSpeed='<img src="i/meter_3.png">';
+					break;
+					
+				case '4x':
+					readSpeed='<img src="i/meter_4.png">';
+					break;			
+			}
+			
+			switch(writeSpeed){
+				case 'n/a':
+					writeSpeed='<img src="i/meter_0.png">';
+					break;
+			
+				case '1x':
+					writeSpeed='<img src="i/meter_1.png">';
+					break;
+					
+				case '2x':
+					writeSpeed='<img src="i/meter_2.png">';
+					break;
+					
+				case '3x':
+					writeSpeed='<img src="i/meter_3.png">';
+					break;
+					
+				case '4x':
+					writeSpeed='<img src="i/meter_4.png">';
+					break;			
+			}			
+			
+			
+			htmlString = 'Reported Size: <b>' 
+							+ thisAnswer  
+							+ '</b><hr><span class="smallerReport"><table><tr><td align=right>Actual Size: </td><td><b>' + actualSize + '</td></tr>' 
+							+ '<tr><td align=right>Read Speed: </td><td>' + readSpeed + '</td></tr>' 
+							+ '<tr><td align=right>Write Speed: </td><td>' + writeSpeed + '</td></tr>'
+							+ '<tr><td align=right>Fault Tolerance: </td><td>' + fault +'</td></tr></table></span>';
+							
+			$('#theAnswer').html(htmlString); // show to the user
+		
+		
+		}
+	
+	
+		// keep the user from scrolling around
+		function preventBehavior(e) { 
+		  e.preventDefault(); 
+		};
+		document.addEventListener("touchmove", preventBehavior, false);
+		
+		
+		function onBodyLoad() {
+			document.addEventListener("deviceready",onDeviceReady,false);
+		}
+		
+		/* When this function is called, PhoneGap has been initialized and is ready to roll */
+		function onDeviceReady() {
+
+		}
+		
+		$(document).ready(function() { // jquery is ready to go. let's play!
+		
+				calcRaid(); // call this on load to keep the answer field up to date
+				jQuery.preLoadImages("i/meter_0.png", "i/meter_1.png", "i/meter_2.png", "i/meter_3.png", "i/meter_4.png");
+				
+				setTimeout(function(){
+					$('#theForm').fadeIn('slow');
+					$('#theAnswer').fadeIn('slow');
+				}, 500);
+				
+				$('#credits').fadeOut(1);
+				$('#altBG').fadeOut(1);
+				$('#theForm').fadeOut(1);
+				$('#theAnswer').fadeOut(1);
+				
+				$('#loadBG').fadeOut('slow');
+				
+				$('#showTheCredits').click(function(){showCredits();});
+				$('#credits').click(function(){hideCredits();});
+				
+		});
+	
+	
+    
+    </script>
+
+  </head>
+  <body onload="onBodyLoad()">
+  
+	<div id="container">
+		<div id="altBG">&nbsp;</div>
+		<div id="loadBG">&nbsp;</div>
+		<div id="theForm">
+			<form>
+				<select id="lvl" name="lvl" onChange="calcRaid()">
+					<option value="null">RAID Level</option>
+					<option value="null"> </option>
+					<option value="JBOD">JBOD</option>
+					<option value="0">RAID 0</option>
+					<option value="0+1">RAID 0+1</option>
+					<option value="1+0">RAID 1+0</option>
+					<option value="10">RAID 10</option>	
+					<option value="1">RAID 1</option>
+					<option value="1E">RAID 1E</option>
+					<option value="3">RAID 3</option>	<!-- overkill? -->
+					<option value="4">RAID 4</option>	<!-- overkill? -->	
+					<option value="5">RAID 5</option>
+					<option value="50">RAID 50</option>
+					<option value="6">RAID 6</option>
+					<option value="60">RAID 60</option>				
+				</select>
+				<br /><br />
+				<select id="drv" name="drv" onChange="calcRaid()">
+					<option value="0">Drive Size</option>
+					<option value="0"> </option>
+					<option value="73.4">73.4 GB</option>
+					<option value="73.5">73.5 GB</option>
+					<option value="74">74 GB</option>
+					<option value="80">80 GB</option>
+					<option value="120">120 GB</option>
+					<option value="146">146 GB</option>
+					<option value="147">147 GB</option>
+					<option value="150">150 GB</option>
+					<option value="160">160 GB</option>
+					<option value="250">250 GB</option>
+					<option value="300">300 GB</option>
+					<option value="320">320 GB</option>
+					<option value="400">400 GB</option>
+					<option value="450">450 GB</option>
+					<option value="500">500 GB</option>
+					<option value="600">600 GB</option>
+					<option value="640">640 GB</option>
+					<option value="750">750 GB</option>
+					<option value="800">800 GB</option>
+					<option value="1000">1 TB</option>
+					<option value="1500">1.5 TB</option>
+					<option value="2000">2 TB</option>			
+					<option value="3000">3 TB</option>	
+					<option value="4000">4 TB</option>		
+				</select>
+				<br /><br />
+				<select id="num" name="num" onChange="calcRaid()">
+					<option>Number of drives</option>
+					<option> </option>
+					<option>1</option>
+					<option>2</option>
+					<option>3</option>
+					<option>4</option>
+					<option>5</option>
+					<option>6</option>	
+					<option>7</option>	
+					<option>8</option>
+					<option>9</option>
+					<option>10</option>
+					<option>11</option>
+					<option>12</option>
+					<option>13</option>	
+					<option>14</option>	
+					<option>15</option>
+					<option>16</option>	
+					<option>17</option>	
+					<option>18</option>
+					<option>19</option>
+					<option>20</option>	
+					<option>21</option>
+					<option>22</option>
+					<option>23</option>	
+					<option>24</option>	
+					<option>25</option>
+					<option>26</option>	
+					<option>27</option>	
+					<option>28</option>
+					<option>29</option>
+					<option>30</option>	
+					<option>41</option>
+					<option>42</option>
+					<option>43</option>	
+					<option>44</option>	
+					<option>45</option>
+					<option>46</option>	
+					<option>47</option>	
+					<option>48</option>
+					<option>49</option>
+					<option>50</option>		<!-- anything more is probably silly. maybe up to 99?  -->		
+				</select>
+			</form>
+		</div>
+		<br />
+		<div id="theAnswer">0 GB</div> <!-- used by jquery to show the result of the form to the user -->
+		<div id="showTheCredits">&nbsp;</div>
+		<div id="credits">Programmed with love by <b><a href="mailto:mrballistic@gmail.com?subject=RAIDCalculator">Todd Greco</a></b><hr /><a href="http://www.mrballistic.com/">mrballistic.com</a><br /><a href="http://www.twitter.com/mrballistic">@mrballistic</a><br />v1.2</div>
+	</div>
+	
+
+	
+  </body>
+</html>
